@@ -1,206 +1,166 @@
+<!DOCTYPE html> <html lang="zh-Hant">
+<head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>瀏覽器分頁標題</title>
+<style> body { margin: 0; min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; background: #111827; font-family: Arial, "Microsoft JhengHei", sans-serif; color: white; }
+.player {
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+  padding: 40px 25px;
+  box-sizing: border-box;
+}
 
-<!DOCTYPE html>
-<html lang="zh-Hant">
+h1 {
+  font-size: 28px;
+  margin-bottom: 30px;
+  font-weight: normal;
+}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>是祂 吉他試唱</title>
+audio {
+  width: 100%;
+}
 
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      background: #111827;
-      font-family: Arial, "Microsoft JhengHei", sans-serif;
-      color: white;
-    }
+.artist {
+  margin-top: 20px;
+  font-size: 14px;
+  opacity: 0.6;
+}
 
-    .player {
-      width: 90%;
-      max-width: 500px;
-      text-align: center;
-      padding: 40px 25px;
-      box-sizing: border-box;
-    }
+.download-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 25px;
+  background: #2563eb;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
 
-    h1 {
-      font-size: 28px;
-      margin-bottom: 30px;
-      font-weight: normal;
-    }
+.download-btn:hover {
+  background: #1d4ed8;
+}
 
-    audio {
-      width: 100%;
-    }
+/* 歌詞區塊 */
+.lyrics {
+  margin-top: 35px;
+  padding: 25px 20px;
+  background: #1f2937;
+  border-radius: 12px;
+  text-align: center;
+}
 
-    .artist {
-      margin-top: 20px;
-      font-size: 14px;
-      opacity: 0.6;
-    }
+.lyrics-title {
+  font-size: 18px;
+  margin-bottom: 20px;
+  font-weight: normal;
+  color: #93c5fd;
+}
 
-    .download-btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 12px 25px;
-      background: #2563eb;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-size: 15px;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .download-btn:hover {
-      background: #1d4ed8;
-    }
-
-    /* 歌詞區塊 */
-    .lyrics {
-      margin-top: 35px;
-      padding: 25px 20px;
-      background: #1f2937;
-      border-radius: 12px;
-      text-align: center;
-    }
-
-    .lyrics-title {
-      font-size: 18px;
-      margin-bottom: 20px;
-      font-weight: normal;
-      color: #93c5fd;
-    }
-
-    .lyrics-content {
-      font-size: 16px;
-      line-height: 2;
-      white-space: pre-wrap;
-      color: #e5e7eb;
-      overflow-wrap: break-word;
-    }
-
-  </style>
-</head>
-
+.lyrics-content {
+  font-size: 16px;
+  line-height: 2;
+  white-space: pre-wrap;
+  color: #e5e7eb;
+  overflow-wrap: break-word;
+}
+</style> </head>
 <body>
+<div class="player">
+<h1 id="songTitle">歌曲名稱</h1>
 
-  <div class="player">
+<audio controls id="musicPlayer">
+  您的瀏覽器不支援音樂播放。
+</audio>
 
-    <h1 id="songTitle">是祂</h1>
+<div class="artist" id="songSubtitle">
+  副標題
+</div>
 
-    <audio controls id="musicPlayer">
-      您的瀏覽器不支援音樂播放。
-    </audio>
+<a
+  class="download-btn"
+  id="downloadButton"
+  href="#"
+  download
+>
+  🎵 下載音樂 MP3
+</a>
 
-    <div class="artist" id="songSubtitle">
-      吉他試唱
-    </div>
+<!-- 歌詞區塊 -->
+<div class="lyrics">
 
-    <a
-      class="download-btn"
-      id="downloadButton"
-      href="#"
-      download
-    >
-      🎵 下載音樂 MP3
-    </a>
+  <div class="lyrics-title">歌詞</div>
 
-    <!-- 歌詞區塊 -->
-    <div class="lyrics">
+  <div class="lyrics-content" id="songLyrics"></div>
 
-      <div class="lyrics-title">歌詞</div>
+</div>
+</div>
+<script>
+// ==============================
+// 歌曲設定：更換歌曲時修改這裡即可
+// ==============================
 
-      <div class="lyrics-content" id="songLyrics"></div>
+// GitHub 儲存庫中的 MP3 檔案名稱
+const musicFile = "是祂 吉他試唱.MP3";
 
-    </div>
+// 網頁顯示的歌曲標題
+const songTitle = "歌曲名稱";
 
-  </div>
+// 歌曲副標題
+const songSubtitle = "副標題";
 
-  <script>
+// 使用者下載時看到的檔案名稱
+const downloadFileName = "下載後顯示的檔名.mp3";
 
-    // ==============================
-    // 歌曲設定：更換歌曲時修改這裡即可
-    // ==============================
+// 歌詞：直接在這裡貼上完整歌詞
+const lyrics = `歌詞第一句
+歌詞第二句
+歌詞第三句
+以此類推 
+`;
+// ==============================
+// 音樂網址設定
+// ==============================
 
-    // GitHub 儲存庫中的 MP3 檔案名稱
-    const musicFile = "是祂 吉他試唱.MP3";
+const musicUrl = "./" + encodeURIComponent(musicFile);
 
-    // 網頁顯示的歌曲標題
-    const songTitle = "是祂";
+// ==============================
+// 顯示歌曲資訊
+// ==============================
 
-    // 歌曲副標題
-    const songSubtitle = "吉他試唱";
+document.getElementById("songTitle").textContent = songTitle;
 
-    // 使用者下載時看到的檔案名稱
-    const downloadFileName = "是祂 吉他試唱.mp3";
+document.getElementById("songSubtitle").textContent = songSubtitle;
 
-    // 歌詞：直接在這裡貼上完整歌詞
-    const lyrics = `有一份愛從天而降
-花兒都因它而芬芳
-那是童話般的魔法
-多奇妙 真偉大 是祂
+document.getElementById("songLyrics").textContent = lyrics;
 
-祂是道路真理和生命
-祂從不計較我的曾經
-在祂裡面我已被更新
-祂使我的靈甦醒
+// ==============================
+// 設定音樂播放器
+// ==============================
 
-唯祂配得尊榮的冠冕
-祂還賜下白白的恩典
-我要向祂歌頌和讚美
-榮耀歸與至高神
-祂是耶穌我的神`;
+const musicPlayer = document.getElementById("musicPlayer");
 
-    // ==============================
-    // 音樂網址設定
-    // ==============================
+musicPlayer.src = musicUrl;
 
-    const musicUrl = "./" + encodeURIComponent(musicFile);
+musicPlayer.load();
 
-    // ==============================
-    // 顯示歌曲資訊
-    // ==============================
+musicPlayer.addEventListener("loadedmetadata", function() {
+  console.log("音樂載入成功，長度：", musicPlayer.duration);
+});
 
-    document.getElementById("songTitle").textContent = songTitle;
+musicPlayer.addEventListener("error", function() {
+  console.log("音樂載入失敗：", musicPlayer.error);
+});
 
-    document.getElementById("songSubtitle").textContent = songSubtitle;
+// ==============================
+// 下載按鈕設定
+// ==============================
 
-    document.getElementById("songLyrics").textContent = lyrics;
+const downloadButton = document.getElementById("downloadButton");
 
-    // ==============================
-    // 設定音樂播放器
-    // ==============================
+downloadButton.href = musicUrl;
 
-    const musicPlayer = document.getElementById("musicPlayer");
-
-    musicPlayer.src = musicUrl;
-
-    musicPlayer.load();
-
-    musicPlayer.addEventListener("loadedmetadata", function() {
-      console.log("音樂載入成功，長度：", musicPlayer.duration);
-    });
-
-    musicPlayer.addEventListener("error", function() {
-      console.log("音樂載入失敗：", musicPlayer.error);
-    });
-
-    // ==============================
-    // 下載按鈕設定
-    // ==============================
-
-    const downloadButton = document.getElementById("downloadButton");
-
-    downloadButton.href = musicUrl;
-
-    downloadButton.download = downloadFileName;
-
-  </script>
-
-</body>
-</html>
+downloadButton.download = downloadFileName;
+</script>
+</body> </html>
